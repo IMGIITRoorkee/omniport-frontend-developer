@@ -1,0 +1,8 @@
+{
+  "nomenclature": {
+    "name": "developer",
+    "verboseName": "Developer"
+  },
+  "baseUrl": "/developer",
+  "source": "developer/src/index"
+}
