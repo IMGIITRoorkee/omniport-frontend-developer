@@ -1,0 +1,14 @@
+.app-detail-container{
+    margin-top: 1.5em;
+}
+.app-logo-container{
+    display: flex;
+    align-items: center;
+    margin-right: 0.5em;
+}
+.app-branding-container{
+    display: flex;
+}
+.app-branding-text{
+    flex-grow: 1;
+}
