@@ -3,6 +3,23 @@ import axios from 'axios'
 import { getCookie } from 'formula_one'
 import { urlAppList, urlAppDetail } from '../urls'
 
+export const setOptionsList = () => {
+  return dispatch => {
+    axios
+      .options(urlAppList())
+      .then(res => {
+        dispatch({
+          type: 'SET_OPTIONSLIST',
+          payload: {
+            isLoaded: true,
+            data: res.data
+          }
+        })
+      })
+      .catch(err => {})
+  }
+}
+
 export const setAppList = () => {
   return dispatch => {
     axios
@@ -15,6 +32,20 @@ export const setAppList = () => {
             data: res.data
           }
         })
+      })
+      .catch(err => {})
+  }
+}
+
+export const addApp = data => {
+  let headers = {
+    'X-CSRFToken': getCookie('csrftoken')
+  }
+  return dispatch => {
+    axios
+      .post(urlAppList(), data, { headers: headers })
+      .then(res => {
+        window.location.replace(`../${res.data.id}`)
       })
       .catch(err => {})
   }
@@ -35,6 +66,21 @@ export const setActiveApp = id => {
         })
       })
       .catch(err => {})
+  }
+}
+
+export const deleteApp = id => {
+  let headers = {
+    'X-CSRFToken': getCookie('csrftoken')
+  }
+  return dispatch => {
+    axios.delete(urlAppDetail(id), { headers: headers }).then(res => {
+      dispatch({
+        type: 'DELETE_APP',
+        payload: id
+      })
+      window.location.replace('../')
+    })
   }
 }
 

@@ -1,55 +1,81 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { TextArea, Button } from 'semantic-ui-react'
+import axios from 'axios'
+import { Search, Icon } from 'semantic-ui-react'
 
-import { getTheme } from 'formula_one'
+import { UserCard } from 'formula_one'
+import { urlSearchPerson } from '../urls'
 import { changeActiveApp } from '../actions'
-
-import inline from 'formula_one/src/css/inline.css'
 
 class AppTeamEditor extends React.Component {
   constructor (props) {
     super(props)
-    const { activeApp } = this.props
-    const { data } = activeApp
     this.state = {
-      teamMembers: data.teamMembers.join(',')
+      isLoading: false,
+      value: '',
+      results: []
     }
   }
-  handleChange = e => {
-    const {
-      target: { name, value }
-    } = e
+  handleSearchChange = (e, { value }) => {
     this.setState({
-      [name]: value
+      value: value,
+      isLoading: true
+    })
+    axios.get(urlSearchPerson(), { params: { search: value } }).then(res => {
+      this.setState({
+        results: res.data.slice(0, 3).map(person => {
+          return { person, title: person.fullName }
+        }),
+        isLoading: false
+      })
     })
   }
-  handleClick = e => {}
-  render () {
+  handleResultSelect = (e, { result }) => {
     const { activeApp } = this.props
     const { data } = activeApp
+    const prev_members = data.teamMembers.map(person => {
+      return { id: person.id }
+    })
+    prev_members.push({ id: result.person.id })
+    this.props.ChangeActiveApp(data.id, 'add_member', {
+      teamMembers: prev_members
+    })
+    this.setState({
+      value: ''
+    })
+  }
+  render () {
+    const { activeApp } = this.props
+    const { isLoading, value, results } = this.state
+    const { data } = activeApp
+    const resultRenderer = ({ person, title }) => (
+      <UserCard
+        key={person.id}
+        name={person.fullName}
+        roles={person.roles.map(x => {
+          return x.role
+        })}
+        image={person.displayPicture}
+        right={
+          data.teamMembers.find(x => {
+            return x.id === person.id
+          }) && <Icon name='check' color='green' />
+        }
+      />
+    )
     return (
-      <Form>
-        <Form.Field>
-          <label>Description</label>
-          <TextArea
-            onChange={this.handleChange}
-            placeholder='Add enrolment number, email address or phone number'
-            name='description'
-            autoHeight
-            value={this.state.description}
-          />
-        </Form.Field>
-        <Button
-          color={getTheme()}
-          disabled={!this.state.name || !this.state.description}
-          floated='right'
-          onClick={this.handleClick}
-          loading={activeApp.inEditMode === 'branding'}
-        >
-          Update
-        </Button>
-      </Form>
+      <Search
+        aligned='right'
+        loading={isLoading}
+        onSearchChange={this.handleSearchChange}
+        onResultSelect={this.handleResultSelect}
+        results={results}
+        value={value}
+        resultRenderer={resultRenderer}
+        fluid
+        input={{ fluid: true }}
+        placeholder='Add members by their name or contact information'
+      />
     )
   }
 }

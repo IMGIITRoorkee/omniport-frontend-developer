@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Container, Card, Label } from 'semantic-ui-react'
+import { Container, Card, Label, Modal } from 'semantic-ui-react'
 
 import { TileCard } from 'formula_one'
+import AddApp from './add-app'
 import { setAppList } from '../actions'
 
 import main from '../css/app-list.css'
@@ -19,7 +20,13 @@ class AppList extends React.PureComponent {
         {appList.isLoaded ? (
           <div styleName='app-list-container'>
             <Card.Group stackable doubling itemsPerRow={3}>
-              <TileCard name='Add' iconName='add' desc='Add a new app' />
+              <TileCard
+                name='Add'
+                iconName='add'
+                desc={<span>Add a new app</span>}
+                as={Link}
+                to='./add'
+              />
               {appList.data.map(app => {
                 return (
                   <TileCard

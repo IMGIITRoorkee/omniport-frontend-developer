@@ -10,6 +10,7 @@ import {
   Loader
 } from 'semantic-ui-react'
 
+import { getTheme } from 'formula_one'
 import { changeActiveApp } from '../actions'
 
 import main from '../css/app-field.css'
@@ -78,7 +79,13 @@ class RedirectURLs extends React.Component {
                   .map((url, index) => {
                     if (url !== ' ') {
                       return (
-                        <Label as='a' href={url} key={index} target='_blank'>
+                        <Label
+                          as='a'
+                          href={url}
+                          key={index}
+                          target='_blank'
+                          color={getTheme()}
+                        >
                           {url}
                         </Label>
                       )

@@ -1,0 +1,6 @@
+.heading-wrapper{
+    display: flex;
+}
+.heading-container{
+    flex-grow: 1;
+}

@@ -1,5 +1,6 @@
 .app-detail-container{
     margin-top: 1.5em;
+    margin-bottom: 1.5em;
 }
 .app-logo-container{
     display: flex;
@@ -11,4 +12,14 @@
 }
 .app-branding-text{
     flex-grow: 1;
+}
+.delete-button-container{
+    margin-top: 1em;
+}
+.vertical-center{
+    display: flex;
+    align-items: center;
+}
+.warninig-container{
+    margin: 0.5em 0;
 }

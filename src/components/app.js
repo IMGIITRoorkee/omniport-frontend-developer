@@ -1,14 +1,15 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { isMobile, isBrowser } from 'react-device-detect'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import Sidebar from 'core/common/src/components/primary-sidebar'
-import { AppHeader, AppFooter, AppMain, Tiles } from 'formula_one'
+import { AppHeader, AppFooter, AppMain } from 'formula_one'
 import AppList from './app-list'
 import AppDetail from './app-detail'
 
 import main from 'formula_one/src/css/app.css'
+import AddApp from './add-app'
 
 export default class App extends React.PureComponent {
   render () {
@@ -34,8 +35,15 @@ export default class App extends React.PureComponent {
             <div styleName='main.app-main'>
               {isBrowser && <Sidebar />}
               <Scrollbars autoHide>
-                <Route exact path={`${match.path}`} component={AppList} />
-                <Route exact path={`${match.path}:id`} component={AppDetail} />
+                <Switch>
+                  <Route exact path={`${match.path}`} component={AppList} />
+                  <Route exact path={`${match.path}add`} component={AddApp} />
+                  <Route
+                    exact
+                    path={`${match.path}:id`}
+                    component={AppDetail}
+                  />
+                </Switch>
               </Scrollbars>
             </div>
           </AppMain>

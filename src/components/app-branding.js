@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import {
   Form,
   Icon,
-  TextArea,
   Button,
   Image,
   Label,
-  Segment
+  Segment,
+  Modal
 } from 'semantic-ui-react'
 
 import { getTheme } from 'formula_one'
@@ -23,7 +23,6 @@ class AppBranding extends React.Component {
     const { data } = activeApp
     this.state = {
       name: data.name,
-      description: data.description,
       fileSrc: data.logo,
       logo: data.logo
     }
@@ -53,10 +52,13 @@ class AppBranding extends React.Component {
   }
   handleClick = e => {
     if (this.props.activeApp.inEditMode === 'none') {
-      if (this.state.fileSrc === '') {
+      if (
+        this.state.fileSrc === '' ||
+        this.state.logo === null ||
+        this.state.logo === this.state.fileSrc
+      ) {
         let data = {
-          name: this.state.name,
-          description: this.state.description
+          name: this.state.name
         }
         if (!this.state.logo) {
           data['logo'] = null
@@ -69,7 +71,6 @@ class AppBranding extends React.Component {
       } else {
         var formData = new FormData()
         formData.append('name', this.state.name)
-        formData.append('description', this.state.description)
         formData.append('logo', this.state.logo)
         this.props.ChangeActiveAppWithFile(
           this.props.activeApp.data.id,
@@ -88,68 +89,63 @@ class AppBranding extends React.Component {
       </Label>
     )
     return (
-      <Form>
-        <Form.Field>
-          <label>Logo</label>
-        </Form.Field>
-        {!fileSrc ? (
-          <React.Fragment>
-            <label htmlFor='uploadLogo'>
-              <Button
-                as='span'
-                icon
-                labelPosition='left'
-                primary
-                styleName='inline.margin-bottom-1em'
-              >
-                <Icon name='upload' />
-                Upload
-              </Button>
-            </label>
-            <input
-              type='file'
-              onChange={this.fileChange}
-              name='logo'
-              id='uploadLogo'
-              styleName='inline.display-none'
-            />
-          </React.Fragment>
-        ) : (
-          <Segment basic compact>
-            {content}
-            <Image src={fileSrc} style={{ width: '4em', height: '4em' }} />
-          </Segment>
-        )}
-        <Form.Field>
-          <label>Name</label>
-          <input
-            onChange={this.handleChange}
-            placeholder='Name'
-            name='name'
-            value={this.state.name}
-            autoComplete='off'
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Description</label>
-          <TextArea
-            onChange={this.handleChange}
-            placeholder='Description'
-            name='description'
-            autoHeight
-            value={this.state.description}
-          />
-        </Form.Field>
-        <Button
-          color={getTheme()}
-          disabled={!this.state.name || !this.state.description}
-          floated='right'
-          onClick={this.handleClick}
-          loading={activeApp.inEditMode === 'branding'}
-        >
-          Update
-        </Button>
-      </Form>
+      <React.Fragment>
+        <Modal.Content scrolling>
+          <Form>
+            <Form.Field>
+              <label>Logo</label>
+            </Form.Field>
+            {!fileSrc ? (
+              <React.Fragment>
+                <label htmlFor='uploadLogo'>
+                  <Button
+                    as='span'
+                    icon
+                    labelPosition='left'
+                    primary
+                    styleName='inline.margin-bottom-1em'
+                  >
+                    <Icon name='upload' />
+                    Upload
+                  </Button>
+                </label>
+                <input
+                  type='file'
+                  onChange={this.fileChange}
+                  name='logo'
+                  id='uploadLogo'
+                  styleName='inline.display-none'
+                />
+              </React.Fragment>
+            ) : (
+              <Segment basic compact>
+                {content}
+                <Image src={fileSrc} style={{ width: '4em', height: '4em' }} />
+              </Segment>
+            )}
+            <Form.Field>
+              <label>App name</label>
+              <input
+                onChange={this.handleChange}
+                placeholder='App name'
+                name='name'
+                value={this.state.name}
+                autoComplete='off'
+              />
+            </Form.Field>
+          </Form>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            color={getTheme()}
+            disabled={!this.state.name}
+            onClick={this.handleClick}
+            loading={activeApp.inEditMode === 'branding'}
+          >
+            Update
+          </Button>
+        </Modal.Actions>
+      </React.Fragment>
     )
   }
 }

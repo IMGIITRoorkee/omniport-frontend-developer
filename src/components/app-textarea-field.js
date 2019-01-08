@@ -1,34 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Dimmer, Dropdown, Form, Table, Icon, Loader } from 'semantic-ui-react'
+import { Form, Icon, TextArea, Table, Loader, Dimmer } from 'semantic-ui-react'
 
-import { changeActiveApp } from '../actions'
+import { changeActiveApp, changeActiveAppWithFile } from '../actions'
 
 import main from '../css/app-field.css'
 
-class AppFieldSelect extends React.Component {
+class AppTextareaField extends React.Component {
   constructor (props) {
     super(props)
-    const { activeApp, field } = props
+    const { activeApp, field, fieldName } = this.props
     const { data } = activeApp
     this.state = {
-      editMode: false,
-      value: data[field]
+      [field]: data[fieldName]
     }
   }
-  handleChange = (e, { value }) => {
+  handleChange = e => {
+    const {
+      target: { name, value }
+    } = e
     this.setState({
-      value: value
+      [name]: value
     })
   }
-  handleClick = () => {
+  handleClick = e => {
     if (this.props.activeApp.inEditMode === 'none') {
       if (this.state.editMode) {
         this.props.ChangeActiveApp(
           this.props.activeApp.data.id,
           this.props.field,
           {
-            [this.props.field]: this.state.value
+            [this.props.field]: this.state[this.props.field]
           }
         )
       }
@@ -38,14 +40,7 @@ class AppFieldSelect extends React.Component {
     }
   }
   render () {
-    const {
-      activeApp,
-      field,
-      verboseName,
-      options,
-      fieldName,
-      editable
-    } = this.props
+    const { verboseName, fieldName, activeApp, field, editable } = this.props
     const { editMode } = this.state
     const { data, inEditMode } = activeApp
     return (
@@ -56,22 +51,22 @@ class AppFieldSelect extends React.Component {
             {editMode || inEditMode === field ? (
               <Dimmer.Dimmable dimmed={inEditMode === field}>
                 <Form>
-                  <Dropdown
-                    selection
-                    name={field}
-                    options={options}
-                    placeholder={`Select ${verboseName}`}
-                    defaultValue={data[fieldName]}
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </Form>
+                  <Form.Field>
+                    <TextArea
+                      onChange={this.handleChange}
+                      placeholder='Description'
+                      name='description'
+                      autoHeight
+                      value={this.state.description}
+                    />
+                  </Form.Field>
+                </Form>{' '}
                 <Dimmer active={inEditMode === field} inverted>
                   <Loader />
                 </Dimmer>
               </Dimmer.Dimmable>
             ) : (
-              options.find(x => x.value === data[fieldName]).text
+              data[fieldName]
             )}
           </div>
         </Table.Cell>
@@ -102,6 +97,9 @@ const mapDispatchToProps = dispatch => {
   return {
     ChangeActiveApp: (id, field, data) => {
       dispatch(changeActiveApp(id, field, data))
+    },
+    ChangeActiveAppWithFile: (id, field, data) => {
+      dispatch(changeActiveAppWithFile(id, field, data))
     }
   }
 }
@@ -109,4 +107,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AppFieldSelect)
+)(AppTextareaField)
