@@ -4,5 +4,9 @@
     "verboseName": "Developer"
   },
   "baseUrl": "/developer",
-  "source": "developer/src/index"
+  "source": "developer/src/index",
+  "primarySidebar": {
+    "icon": "code",
+    "priority": 6
+  }
 }
