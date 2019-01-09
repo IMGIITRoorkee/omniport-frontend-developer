@@ -178,14 +178,12 @@ class AppList extends React.Component {
                 open={this.state.modalOpen}
                 trigger={
                   <Button
-                    icon
-                    labelPosition='left'
+                    basic
+                    icon='trash alternate'
                     negative
                     onClick={this.handleOpen}
-                  >
-                    <Icon name='trash alternate' />
-                    Delete app
-                  </Button>
+                    content='Delete app'
+                  />
                 }
                 dimmer='blurring'
                 size='mini'
@@ -210,16 +208,21 @@ class AppList extends React.Component {
                   />
                 </Modal.Content>
                 <Modal.Actions>
-                  <Button positive onClick={this.handleClose}>
-                    <Icon name='left arrow' /> Keep
-                  </Button>
                   <Button
+                    basic
+                    icon='left arrow'
+                    content='Keep'
+                    positive
+                    onClick={this.handleClose}
+                  />
+                  <Button
+                    basic
+                    icon='trash alternate'
+                    content="Delete, I'm sure"
                     negative
                     onClick={this.handleRemove}
                     disabled={this.state.enteredName !== data.name}
-                  >
-                    <Icon name='trash alternate' /> Delete, I'm sure
-                  </Button>
+                  />
                 </Modal.Actions>
               </Modal>
             </div>

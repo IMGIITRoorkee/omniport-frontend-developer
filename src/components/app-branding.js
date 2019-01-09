@@ -100,14 +100,12 @@ class AppBranding extends React.Component {
                 <label htmlFor='uploadLogo'>
                   <Button
                     as='span'
-                    icon
-                    labelPosition='left'
-                    primary
+                    icon='upload'
+                    basic
+                    color={getTheme()}
                     styleName='inline.margin-bottom-1em'
-                  >
-                    <Icon name='upload' />
-                    Upload
-                  </Button>
+                    content='Upload'
+                  />
                 </label>
                 <input
                   type='file'
@@ -137,13 +135,14 @@ class AppBranding extends React.Component {
         </Modal.Content>
         <Modal.Actions>
           <Button
-            color={getTheme()}
+            basic
+            icon='check'
+            primary
             disabled={!this.state.name}
             onClick={this.handleClick}
             loading={activeApp.inEditMode === 'branding'}
-          >
-            Update
-          </Button>
+            content='Update'
+          />
         </Modal.Actions>
       </React.Fragment>
     )

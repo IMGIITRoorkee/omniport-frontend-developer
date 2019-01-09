@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import thunk from 'redux-thunk'
 
 import { whoami } from 'core/common/src/actions/auth'
-import PRoute from 'services/auth/Routes/pRoute'
+import PRoute from 'services/auth/pRoute'
 
 import App from './components/app'
 import rootReducers from './reducers'

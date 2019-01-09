@@ -92,12 +92,20 @@ class AppTeam extends React.Component {
                         action <strong>cannot</strong> be undone.
                       </Modal.Content>
                       <Modal.Actions>
-                        <Button positive onClick={this.handleClose}>
-                          <Icon name='left arrow' /> Keep
-                        </Button>
-                        <Button negative onClick={this.handleDelete}>
-                          <Icon name='close' /> Delete, I'm sure
-                        </Button>
+                        <Button
+                          basic
+                          icon='left arrow'
+                          content='Keep'
+                          positive
+                          onClick={this.handleClose}
+                        />
+                        <Button
+                          basic
+                          negative
+                          onClick={this.handleDelete}
+                          icon='close'
+                          content="Delete, I'm sure"
+                        />
                       </Modal.Actions>
                     </Modal>
                   }

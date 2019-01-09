@@ -156,37 +156,6 @@ class AddApp extends React.Component {
         <div styleName='main.app-list-container'>
           <Header as='h3'>Add a new app</Header>
           <Form>
-            {/* <Form.Field>
-              <label>Logo</label>
-            </Form.Field>
-            {!fileSrc ? (
-              <React.Fragment>
-                <label htmlFor='uploadLogo'>
-                  <Button
-                    as='span'
-                    icon
-                    labelPosition='left'
-                    styleName='inline.margin-bottom-1em'
-                    color={getTheme()}
-                  >
-                    <Icon name='upload' />
-                    Upload
-                  </Button>
-                </label>
-                <input
-                  type='file'
-                  onChange={this.fileChange}
-                  name='logo'
-                  id='uploadLogo'
-                  styleName='inline.display-none'
-                />
-              </React.Fragment>
-            ) : (
-              <Segment basic compact>
-                {content}
-                <Image src={fileSrc} style={{ width: '4em', height: '4em' }} />
-              </Segment>
-            )} */}
             <Form.Field>
               <label>App name</label>
               <input
@@ -288,11 +257,11 @@ class AddApp extends React.Component {
             </Form.Field>
             <Form.Field>
               <Button
+                basic
                 icon='add'
-                primary
-                labelPosition='left'
                 content='Add'
                 onClick={this.handleClick}
+                primary
               />
             </Form.Field>
           </Form>
