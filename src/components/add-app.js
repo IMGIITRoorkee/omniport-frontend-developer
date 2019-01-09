@@ -51,21 +51,6 @@ class AddApp extends React.Component {
       this.props.SetOptionsList()
     }
   }
-  // fileChange = e => {
-  //   this.setState({
-  //     logo: e.target.files[0],
-  //     fileSrc: e.target.files[0]
-  //       ? URL.createObjectURL(e.target.files[0])
-  //       : null
-  //   })
-  // }
-  // removeImage = () => {
-  //   this.setState({
-  //     logo: null,
-  //     active: false,
-  //     fileSrc: ''
-  //   })
-  // }
   handleChange = e => {
     const { name, value } = e.target
     this.setState({
