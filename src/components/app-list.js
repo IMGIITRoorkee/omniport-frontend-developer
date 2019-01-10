@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { Container, Card, Label, Modal } from 'semantic-ui-react'
 
 import { TileCard } from 'formula_one'
-import AddApp from './add-app'
 import { setAppList } from '../actions'
+import { urlAddAppView, urlAppView } from '../urls'
 
 import main from '../css/app-list.css'
 
@@ -25,13 +25,13 @@ class AppList extends React.PureComponent {
                 iconName='add'
                 desc={<span>Add a new app</span>}
                 as={Link}
-                to='./add'
+                to={urlAddAppView()}
               />
               {appList.data.map(app => {
                 return (
                   <TileCard
                     as={Link}
-                    to={`./${app.id}`}
+                    to={urlAppView(app.id)}
                     key={app.id}
                     name={app.name}
                     desc={

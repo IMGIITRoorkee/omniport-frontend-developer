@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { getCookie } from 'formula_one'
-import { urlAppList, urlAppDetail } from '../urls'
+import { urlAppList, urlAppDetail, urlAppView } from '../urls'
 
 export const setOptionsList = () => {
   return dispatch => {
@@ -45,7 +45,7 @@ export const addApp = data => {
     axios
       .post(urlAppList(), data, { headers: headers })
       .then(res => {
-        window.location.replace(`../${res.data.id}`)
+        window.location.replace(urlAppView(res.data.id))
       })
       .catch(err => {})
   }
