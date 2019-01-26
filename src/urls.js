@@ -13,6 +13,10 @@ export function urlAddAppView () {
   return `${urlBase()}/add`
 }
 
+export function urlDeveloperTerms () {
+  return `/terms_of_use/developer`
+}
+
 // Backend URLs
 export function urlAppList () {
   return `/api/developer/application/`

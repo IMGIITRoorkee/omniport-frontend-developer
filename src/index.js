@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
 import thunk from 'redux-thunk'
 
-import { whoami } from 'core/common/src/actions/auth'
+import { whoami } from 'services/auth/src/actions'
 import PRoute from 'services/auth/pRoute'
 
 import App from './components/app'

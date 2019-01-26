@@ -1,12 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Modal,
   Form,
-  Segment,
   Button,
   Icon,
-  Image,
   Label,
   TextArea,
   Dropdown,
@@ -19,6 +16,7 @@ import {
 import { words, startCase } from 'lodash'
 
 import { getTheme } from 'formula_one'
+import { urlDeveloperTerms } from '../urls'
 import { setAppList, setOptionsList, addApp } from '../actions'
 
 import inline from 'formula_one/src/css/inline.css'
@@ -234,8 +232,15 @@ class AddApp extends React.Component {
                 })}
             </Form.Field>
             <Form.Field>
+              <p>
+                Before submitting the form make sure to read the{' '}
+                <a href={urlDeveloperTerms()} target='_blank'>
+                  developer terms of use
+                </a>
+                .
+              </p>
               <Checkbox
-                label='I agree to the developer programme terms and conditions.'
+                label='I agree to the developer terms of use.'
                 onChange={this.handleToggleChange}
                 checked={this.state.agreed}
               />
