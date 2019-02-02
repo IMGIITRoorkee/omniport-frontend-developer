@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import {
   Form,
   Button,
-  Icon,
-  Label,
+  Message,
   TextArea,
   Dropdown,
   Progress,
@@ -13,10 +12,10 @@ import {
   Table,
   Container
 } from 'semantic-ui-react'
-import { words, startCase } from 'lodash'
+import { words, startCase, capitalize } from 'lodash'
 
-import { getTheme } from 'formula_one'
-import { urlDeveloperTerms } from '../urls'
+import { urlDeveloperTerms, urlAppView } from '../urls'
+import { errorExist } from '../utils'
 import { setAppList, setOptionsList, addApp } from '../actions'
 
 import inline from 'formula_one/src/css/inline.css'
@@ -41,7 +40,10 @@ class AddApp extends React.Component {
       descColour: 'red',
       descLength: 0,
       agreed: false,
-      scope: {}
+      scope: {},
+      success: false,
+      error: false,
+      message: ''
     }
   }
   componentDidMount () {
@@ -104,13 +106,11 @@ class AddApp extends React.Component {
     const {
       name,
       redirect_urls,
-      logo,
       description,
       client_type,
       agreed,
       scope
     } = this.state
-    console.log(this.state)
     const dataPoints = Object.keys(scope).map(sco => {
       if (scope[sco]) {
         return sco
@@ -124,22 +124,55 @@ class AddApp extends React.Component {
       agree_to_terms: agreed,
       data_points: dataPoints
     }
-    this.props.AddApp(data)
+    this.props.AddApp(data, this.successCallback, this.errCallback)
+  }
+  successCallback = res => {
+    this.setState({
+      success: true,
+      error: false,
+      message: ''
+    })
+    this.props.history.push(urlAppView(res.data.id))
+  }
+  errCallback = err => {
+    this.setState({
+      error: true,
+      success: false,
+      message: err.response.data
+    })
   }
   render () {
-    const { fileSrc } = this.state
     const { optionsList } = this.props
-    const content = (
-      <Label color={getTheme()} floating onClick={this.removeImage}>
-        <Icon name='close' fitted />
-      </Label>
-    )
+    const { error, success, message } = this.state
     return (
       <Container>
         <div styleName='main.app-list-container'>
           <Header as='h3'>Add a new app</Header>
           <Form>
-            <Form.Field>
+            {error && (
+              <Message
+                negative
+                icon='frown outline'
+                header='Error'
+                list={Object.keys(message)
+                  .map(cat => {
+                    return message[cat].map(x => {
+                      return `${capitalize(startCase(cat))}: ${x}`
+                    })
+                  })
+                  .map(x => {
+                    return x[0]
+                  })}
+              />
+            )}
+            {success && (
+              <Message
+                positive
+                header='Success'
+                content={`Successfully added`}
+              />
+            )}
+            <Form.Field error={error && errorExist(message, 'name')}>
               <label>App name</label>
               <input
                 onChange={this.handleChange}
@@ -149,7 +182,10 @@ class AddApp extends React.Component {
                 autoComplete='off'
               />
             </Form.Field>
-            <Form.Field>
+            <Form.Field
+              error={error && errorExist(message, 'redirectUris')}
+              required
+            >
               <label>Redirect URLs</label>
               <TextArea
                 autoHeight
@@ -159,7 +195,10 @@ class AddApp extends React.Component {
               />
               Multiple URLs are allowed, separated by a space.
             </Form.Field>
-            <Form.Field>
+            <Form.Field
+              error={error && errorExist(message, 'client_type')}
+              required
+            >
               <label>Client type</label>
               <Dropdown
                 selection
@@ -170,7 +209,10 @@ class AddApp extends React.Component {
                 onChange={this.handleDropdownChange}
               />
             </Form.Field>
-            <Form.Field>
+            <Form.Field
+              error={error && errorExist(message, 'description')}
+              required
+            >
               <label>Description</label>
               <TextArea
                 autoHeight
@@ -190,7 +232,7 @@ class AddApp extends React.Component {
               {this.state.descLength !== 1 ? 's ' : ' '}
               written so far.
             </Form.Field>
-            <Form.Field>
+            <Form.Field error={error && errorExist(message, 'dataPoints')}>
               <label>Scope</label>
               {optionsList.isLoaded &&
                 Object.keys(
@@ -231,7 +273,10 @@ class AddApp extends React.Component {
                   )
                 })}
             </Form.Field>
-            <Form.Field>
+            <Form.Field
+              error={error && errorExist(message, 'agreesToTerms')}
+              required
+            >
               <p>
                 Before submitting the form make sure to read the{' '}
                 <a href={urlDeveloperTerms()} target='_blank'>
@@ -252,6 +297,7 @@ class AddApp extends React.Component {
                 content='Add'
                 onClick={this.handleClick}
                 primary
+                disabled={!this.state.agreed}
               />
             </Form.Field>
           </Form>
@@ -275,8 +321,8 @@ const mapDispatchToProps = dispatch => {
     SetOptionsList: () => {
       dispatch(setOptionsList())
     },
-    AddApp: data => {
-      dispatch(addApp(data))
+    AddApp: (data, successCallback, errCallback) => {
+      dispatch(addApp(data, successCallback, errCallback))
     }
   }
 }

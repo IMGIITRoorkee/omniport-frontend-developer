@@ -80,7 +80,9 @@ class AppList extends React.Component {
     })
   }
   componentDidMount () {
-    this.props.SetActiveApp(this.props.match.params.id)
+    this.props.SetActiveApp(this.props.match.params.id, err => {
+      this.props.history.push('/404')
+    })
   }
   render () {
     const { activeApp } = this.props
@@ -242,8 +244,8 @@ function mapStateToProps (state) {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    SetActiveApp: id => {
-      dispatch(setActiveApp(id))
+    SetActiveApp: (id, errCallback) => {
+      dispatch(setActiveApp(id, errCallback))
     },
     DeleteApp: id => {
       dispatch(deleteApp(id))

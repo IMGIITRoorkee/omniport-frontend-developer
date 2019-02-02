@@ -7,10 +7,13 @@ import {
   Image,
   Label,
   Segment,
-  Modal
+  Modal,
+  Message
 } from 'semantic-ui-react'
+import { capitalize, startCase } from 'lodash'
 
 import { getTheme } from 'formula_one'
+import { errorExist } from '../utils'
 import { changeActiveApp, changeActiveAppWithFile } from '../actions'
 
 import inline from 'formula_one/src/css/inline.css'
@@ -24,7 +27,10 @@ class AppBranding extends React.Component {
     this.state = {
       name: data.name,
       fileSrc: data.logo,
-      logo: data.logo
+      logo: data.logo,
+      success: false,
+      error: false,
+      message: ''
     }
   }
   removeImage = () => {
@@ -66,7 +72,9 @@ class AppBranding extends React.Component {
         this.props.ChangeActiveApp(
           this.props.activeApp.data.id,
           'branding',
-          data
+          data,
+          this.successCallback,
+          this.errCallback
         )
       } else {
         var formData = new FormData()
@@ -75,14 +83,30 @@ class AppBranding extends React.Component {
         this.props.ChangeActiveAppWithFile(
           this.props.activeApp.data.id,
           'branding',
-          formData
+          formData,
+          this.successCallback,
+          this.errCallback
         )
       }
     }
   }
+  successCallback = res => {
+    this.setState({
+      success: true,
+      error: false,
+      message: ''
+    })
+  }
+  errCallback = err => {
+    this.setState({
+      error: true,
+      success: false,
+      message: err.response.data
+    })
+  }
   render () {
     const { activeApp } = this.props
-    const { fileSrc } = this.state
+    const { fileSrc, error, success, message } = this.state
     const content = (
       <Label color={getTheme()} floating onClick={this.removeImage}>
         <Icon name='close' fitted />
@@ -92,7 +116,29 @@ class AppBranding extends React.Component {
       <React.Fragment>
         <Modal.Content scrolling>
           <Form>
-            <Form.Field>
+            {error && (
+              <Message
+                negative
+                header='Error'
+                list={Object.keys(message)
+                  .map(cat => {
+                    return message[cat].map(x => {
+                      return `${capitalize(startCase(cat))}: ${x}`
+                    })
+                  })
+                  .map(x => {
+                    return x[0]
+                  })}
+              />
+            )}
+            {success && (
+              <Message
+                positive
+                header='Success'
+                content={`Successfully updated`}
+              />
+            )}
+            <Form.Field error={errorExist(message, 'logo')}>
               <label>Logo</label>
             </Form.Field>
             {!fileSrc ? (
@@ -121,7 +167,7 @@ class AppBranding extends React.Component {
                 <Image src={fileSrc} style={{ width: '4em', height: '4em' }} />
               </Segment>
             )}
-            <Form.Field>
+            <Form.Field error={errorExist(message, 'name')}>
               <label>App name</label>
               <input
                 onChange={this.handleChange}
@@ -140,7 +186,7 @@ class AppBranding extends React.Component {
             primary
             disabled={!this.state.name}
             onClick={this.handleClick}
-            loading={activeApp.inEditMode === 'branding'}
+            loading={activeApp.inEditMode === 'branding' && !error && !success}
             content='Update'
           />
         </Modal.Actions>
@@ -156,11 +202,19 @@ function mapStateToProps (state) {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    ChangeActiveApp: (id, field, data) => {
-      dispatch(changeActiveApp(id, field, data))
+    ChangeActiveApp: (id, field, data, successCallback, errCallback) => {
+      dispatch(changeActiveApp(id, field, data, successCallback, errCallback))
     },
-    ChangeActiveAppWithFile: (id, field, data) => {
-      dispatch(changeActiveAppWithFile(id, field, data))
+    ChangeActiveAppWithFile: (
+      id,
+      field,
+      data,
+      successCallback,
+      errCallback
+    ) => {
+      dispatch(
+        changeActiveAppWithFile(id, field, data, successCallback, errCallback)
+      )
     }
   }
 }

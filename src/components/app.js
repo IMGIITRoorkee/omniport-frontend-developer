@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import { isMobile, isBrowser } from 'react-device-detect'
 import { Scrollbars } from 'react-custom-scrollbars'
 
@@ -7,9 +7,9 @@ import Sidebar from 'core/common/src/components/primary-sidebar'
 import { AppHeader, AppFooter, AppMain } from 'formula_one'
 import AppList from './app-list'
 import AppDetail from './app-detail'
+import AddApp from './add-app'
 
 import main from 'formula_one/src/css/app.css'
-import AddApp from './add-app'
 
 export default class App extends React.PureComponent {
   render () {
@@ -43,6 +43,7 @@ export default class App extends React.PureComponent {
                     path={`${match.path}:id`}
                     component={AppDetail}
                   />
+                  <Route render={props => <Redirect to='/404' />} />
                 </Switch>
               </Scrollbars>
             </div>

@@ -22,7 +22,9 @@ class RedirectURLs extends React.Component {
     const { data } = activeApp
     this.state = {
       editMode: false,
-      value: data['redirectUris'].replace(/\n/g, ' ').replace(/\s\s+/g, ' ')
+      value: data['redirectUris'].replace(/\n/g, ' ').replace(/\s\s+/g, ' '),
+      error: false,
+      message: ''
     }
   }
   handleChange = (e, { value }) => {
@@ -38,17 +40,33 @@ class RedirectURLs extends React.Component {
           'redirectUris',
           {
             redirect_uris: this.state.value
-          }
+          },
+          this.successCallback,
+          this.errCallback
         )
+      } else {
+        this.setState({
+          editMode: !this.state.editMode
+        })
       }
-      this.setState({
-        editMode: !this.state.editMode
-      })
     }
+  }
+  successCallback = res => {
+    this.setState({
+      error: false,
+      message: '',
+      editMode: !this.state.editMode
+    })
+  }
+  errCallback = err => {
+    this.setState({
+      error: true,
+      message: err.response.data
+    })
   }
   render () {
     const { activeApp } = this.props
-    const { editMode } = this.state
+    const { editMode, error, message } = this.state
     const { data, inEditMode } = activeApp
     return (
       <Table.Row>
@@ -58,13 +76,17 @@ class RedirectURLs extends React.Component {
             {editMode || inEditMode === 'redirectUris' ? (
               <Dimmer.Dimmable dimmed={inEditMode === 'redirectUris'}>
                 <Form>
-                  <TextArea
-                    autoHeight
-                    placeholder='Multiple urls are allowed seperated with space'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                  Multiple URLs are allowed, separated by a space.
+                  <Form.Field error={error}>
+                    <TextArea
+                      autoHeight
+                      placeholder='Multiple urls are allowed seperated with space'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                    {message
+                      ? message['redirectUris'][0]
+                      : 'Multiple URLs are allowed, separated by a space.'}
+                  </Form.Field>
                 </Form>
                 <Dimmer active={inEditMode === 'redirectUris'} inverted>
                   <Loader />
@@ -96,7 +118,7 @@ class RedirectURLs extends React.Component {
           </div>
         </Table.Cell>
         <Table.Cell>
-          {editMode ? (
+          {editMode || error ? (
             <Icon name='save' onClick={this.handleClick} />
           ) : inEditMode === 'redirectUris' ? (
             <Loader active inline size='mini' />
@@ -116,8 +138,8 @@ function mapStateToProps (state) {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    ChangeActiveApp: (id, field, data) => {
-      dispatch(changeActiveApp(id, field, data))
+    ChangeActiveApp: (id, field, data, successCallback, errCallback) => {
+      dispatch(changeActiveApp(id, field, data, successCallback, errCallback))
     }
   }
 }

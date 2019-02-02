@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { getCookie } from 'formula_one'
-import { urlAppList, urlAppDetail, urlAppView } from '../urls'
+import { urlAppList, urlAppDetail } from '../urls'
 
 export const setOptionsList = () => {
   return dispatch => {
@@ -37,7 +37,7 @@ export const setAppList = () => {
   }
 }
 
-export const addApp = data => {
+export const addApp = (data, successCallback, errCallback) => {
   let headers = {
     'X-CSRFToken': getCookie('csrftoken')
   }
@@ -45,13 +45,15 @@ export const addApp = data => {
     axios
       .post(urlAppList(), data, { headers: headers })
       .then(res => {
-        window.location.replace(urlAppView(res.data.id))
+        successCallback(res)
       })
-      .catch(err => {})
+      .catch(err => {
+        errCallback(err)
+      })
   }
 }
 
-export const setActiveApp = id => {
+export const setActiveApp = (id, errCallback) => {
   return dispatch => {
     axios
       .get(urlAppDetail(id))
@@ -65,7 +67,9 @@ export const setActiveApp = id => {
           }
         })
       })
-      .catch(err => {})
+      .catch(err => {
+        errCallback(err)
+      })
   }
 }
 
@@ -84,7 +88,13 @@ export const deleteApp = id => {
   }
 }
 
-export const changeActiveApp = (id, field, data) => {
+export const changeActiveApp = (
+  id,
+  field,
+  data,
+  successCallback,
+  errCallback
+) => {
   let headers = {
     'X-CSRFToken': getCookie('csrftoken')
   }
@@ -107,6 +117,7 @@ export const changeActiveApp = (id, field, data) => {
             data: res.data
           }
         })
+        successCallback(res)
       })
       .catch(err => {
         dispatch({
@@ -116,11 +127,18 @@ export const changeActiveApp = (id, field, data) => {
             isLoaded: true
           }
         })
+        errCallback(err)
       })
   }
 }
 
-export const changeActiveAppWithFile = (id, field, data) => {
+export const changeActiveAppWithFile = (
+  id,
+  field,
+  data,
+  successCallback,
+  errCallback
+) => {
   let headers = {
     'Content-Type': 'multipart/form-data',
     'X-CSRFToken': getCookie('csrftoken')
@@ -144,6 +162,7 @@ export const changeActiveAppWithFile = (id, field, data) => {
             data: res.data
           }
         })
+        successCallback(res)
       })
       .catch(err => {
         dispatch({
@@ -153,6 +172,7 @@ export const changeActiveAppWithFile = (id, field, data) => {
             isLoaded: true
           }
         })
+        errCallback(err)
       })
   }
 }
