@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Table, Icon, Popup } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 import moment from 'moment'
 
 import main from '../css/app-field.css'

@@ -78,11 +78,11 @@ class AppFieldSelect extends React.Component {
         <Table.Cell>
           {editable ? (
             editMode ? (
-              <Icon name='save' onClick={this.handleClick} />
+              <Icon name='save' onClick={this.handleClick} color='blue' />
             ) : inEditMode === field ? (
               <Loader active inline size='mini' />
             ) : (
-              <Icon name='pencil' onClick={this.handleClick} />
+              <Icon name='pencil' onClick={this.handleClick} color='grey' />
             )
           ) : (
             false

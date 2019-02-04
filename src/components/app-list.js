@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Container, Card, Label, Modal } from 'semantic-ui-react'
+import { Container, Card, Label } from 'semantic-ui-react'
 
+import CustomBreadcrumb from 'core/common/src/components/custom-breadcrumb'
 import { TileCard } from 'formula_one'
 import { setAppList } from '../actions'
 import { urlAddAppView, urlAppView } from '../urls'
@@ -19,6 +20,7 @@ class AppList extends React.PureComponent {
       <Container>
         {appList.isLoaded ? (
           <div styleName='app-list-container'>
+            <CustomBreadcrumb list={[{ name: 'Developer' }]} />
             <Card.Group stackable doubling itemsPerRow={3}>
               <TileCard
                 name='Add'

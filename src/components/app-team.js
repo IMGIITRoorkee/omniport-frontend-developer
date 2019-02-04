@@ -7,11 +7,11 @@ import {
   Icon,
   Modal,
   Grid,
-  Button
+  Button,
+  Dropdown
 } from 'semantic-ui-react'
-import { isBrowser } from 'react-device-detect'
 
-import { UserCard, getTheme } from 'formula_one'
+import { UserCard } from 'formula_one'
 import AppTeamEditor from './app-team-editor'
 import { changeActiveApp } from '../actions'
 
@@ -21,11 +21,12 @@ class AppTeam extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      modalOpen: false,
+      modalOpen: '',
       toDelete: {}
     }
   }
-  handleOpen = person => this.setState({ modalOpen: true, toDelete: person })
+  handleOpen = person =>
+    this.setState({ modalOpen: person.id, toDelete: person })
   handleDelete = () => {
     const { toDelete } = this.state
     const updatedMembers = this.props.activeApp.data.teamMembers.filter(x => {
@@ -35,17 +36,17 @@ class AppTeam extends React.Component {
       teamMembers: updatedMembers
     })
     this.setState({
-      modalOpen: false,
+      modalOpen: '',
       toDelete: {}
     })
   }
-  handleClose = () => this.setState({ modalOpen: false, toDelete: {} })
+  handleClose = () => this.setState({ modalOpen: '', toDelete: {} })
   render () {
     const { activeApp } = this.props
     const { data } = activeApp
     return (
       <div>
-        <Segment attached='top' color={getTheme()}>
+        <Segment attached='top'>
           <Grid stackable verticalAlign='middle'>
             <Grid.Column width={10}>
               <Header as='h3' styleName='heading-container'>
@@ -69,45 +70,55 @@ class AppTeam extends React.Component {
                   image={member.displayPicture}
                   key={index}
                   right={
-                    <Modal
-                      trigger={
-                        <Icon
-                          onClick={() => this.handleOpen(member)}
-                          name='close'
-                        />
-                      }
-                      open={this.state.modalOpen}
-                      onClose={this.handleClose}
-                      size='small'
-                      dimmer='blurring'
+                    <Dropdown
+                      icon={{ name: 'ellipsis vertical', color: 'grey' }}
+                      pointing='top right'
                     >
-                      <Modal.Header>
-                        <Icon name='warning sign' color='red' />
-                        Confirm irreversible deletion
-                      </Modal.Header>
-                      <Modal.Content>
-                        Are you sure you want to remove{' '}
-                        <strong>{this.state.toDelete.fullName}</strong> from
-                        members of <strong>{activeApp.data.name}</strong>? This
-                        action <strong>cannot</strong> be undone.
-                      </Modal.Content>
-                      <Modal.Actions>
-                        <Button
-                          basic
-                          icon='left arrow'
-                          content='Keep'
-                          positive
-                          onClick={this.handleClose}
-                        />
-                        <Button
-                          basic
-                          negative
-                          onClick={this.handleDelete}
-                          icon='close'
-                          content="Delete, I'm sure"
-                        />
-                      </Modal.Actions>
-                    </Modal>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => this.handleOpen(member)}>
+                          <Modal
+                            trigger={
+                              <React.Fragment>
+                                <Icon name='close' />
+                                Delete
+                              </React.Fragment>
+                            }
+                            open={this.state.modalOpen === member.id}
+                            onClose={this.handleClose}
+                            size='small'
+                            dimmer='blurring'
+                            closeIcon
+                          >
+                            <Modal.Header>
+                              <Icon name='warning sign' color='red' />
+                              Confirm irreversible deletion
+                            </Modal.Header>
+                            <Modal.Content>
+                              Are you sure you want to remove{' '}
+                              <strong>{this.state.toDelete.fullName}</strong>{' '}
+                              from members of{' '}
+                              <strong>{activeApp.data.name}</strong>? This
+                              action <strong>cannot</strong> be undone.
+                            </Modal.Content>
+                            <Modal.Actions>
+                              <Button
+                                basic
+                                icon='left arrow'
+                                content='Keep'
+                                color='grey'
+                                onClick={this.handleClose}
+                              />
+                              <Button
+                                negative
+                                onClick={this.handleDelete}
+                                icon='close'
+                                content="Delete, I'm sure"
+                              />
+                            </Modal.Actions>
+                          </Modal>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
                   }
                 />
               )

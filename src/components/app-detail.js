@@ -14,7 +14,8 @@ import {
 } from 'semantic-ui-react'
 import { isBrowser } from 'react-device-detect'
 
-import { getTheme, getThemeObject } from 'formula_one'
+import CustomBreadcrumb from 'core/common/src/components/custom-breadcrumb'
+import { getTheme } from 'formula_one'
 import RedirectURLs from './redirect-uris'
 import AppField from './app-field'
 import AppFieldSelect from './app-field-select'
@@ -24,6 +25,7 @@ import AppDate from './app-date'
 import AppScope from './app-scope'
 import AppTextareaField from './app-textarea-field'
 import { setActiveApp, deleteApp } from '../actions'
+import { urlBase } from '../urls'
 
 import main from '../css/app-detail.css'
 
@@ -91,6 +93,12 @@ class AppList extends React.Component {
       <Container>
         {activeApp.isLoaded ? (
           <div styleName='app-detail-container'>
+            <CustomBreadcrumb
+              list={[
+                { name: 'Developer', link: urlBase() },
+                { name: data.name }
+              ]}
+            />
             <Segment color={getTheme()}>
               <div styleName='app-branding-container'>
                 <div styleName='app-logo-container'>
@@ -125,8 +133,9 @@ class AppList extends React.Component {
                 <div styleName='vertical-center'>
                   <Modal
                     size='mini'
-                    trigger={<Icon name='pencil' />}
+                    trigger={<Icon name='pencil' color='grey' />}
                     dimmer='blurring'
+                    closeIcon
                   >
                     <Modal.Header>Edit app branding</Modal.Header>
                     <AppBranding />
@@ -134,9 +143,7 @@ class AppList extends React.Component {
                 </div>
               </div>
             </Segment>
-            <Table
-              style={{ borderTop: `2px solid ${getThemeObject().hexCode}` }}
-            >
+            <Table>
               <Table.Body>
                 <AppField
                   field='clientId'
@@ -189,6 +196,7 @@ class AppList extends React.Component {
                 }
                 dimmer='blurring'
                 size='mini'
+                closeIcon
               >
                 <Modal.Header>
                   <Icon name='warning sign' color='red' />

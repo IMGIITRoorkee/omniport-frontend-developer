@@ -35,6 +35,7 @@ class AppField extends React.PureComponent {
                   name='copy'
                   title='Click to copy'
                   onClick={this.handleClick}
+                  color='grey'
                 />
               }
               content={`${verboseName} copied!`}

@@ -14,7 +14,8 @@ import {
 } from 'semantic-ui-react'
 import { words, startCase, capitalize } from 'lodash'
 
-import { urlDeveloperTerms, urlAppView } from '../urls'
+import CustomBreadcrumb from 'core/common/src/components/custom-breadcrumb'
+import { urlDeveloperTerms, urlAppView, urlBase } from '../urls'
 import { errorExist } from '../utils'
 import { setAppList, setOptionsList, addApp } from '../actions'
 
@@ -147,7 +148,12 @@ class AddApp extends React.Component {
     return (
       <Container>
         <div styleName='main.app-list-container'>
-          <Header as='h3'>Add a new app</Header>
+          <CustomBreadcrumb
+            list={[
+              { name: 'Developer', link: urlBase() },
+              { name: 'Add a new app' }
+            ]}
+          />
           <Form>
             {error && (
               <Message
@@ -292,7 +298,6 @@ class AddApp extends React.Component {
             </Form.Field>
             <Form.Field>
               <Button
-                basic
                 icon='add'
                 content='Add'
                 onClick={this.handleClick}

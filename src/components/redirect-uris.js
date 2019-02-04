@@ -119,11 +119,11 @@ class RedirectURLs extends React.Component {
         </Table.Cell>
         <Table.Cell>
           {editMode || error ? (
-            <Icon name='save' onClick={this.handleClick} />
+            <Icon name='save' onClick={this.handleClick} color='blue' />
           ) : inEditMode === 'redirectUris' ? (
             <Loader active inline size='mini' />
           ) : (
-            <Icon name='pencil' onClick={this.handleClick} />
+            <Icon name='pencil' onClick={this.handleClick} color='grey' />
           )}
         </Table.Cell>
       </Table.Row>
