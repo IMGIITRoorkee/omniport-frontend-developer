@@ -10,7 +10,8 @@ import {
   Checkbox,
   Header,
   Table,
-  Container
+  Container,
+  Placeholder
 } from 'semantic-ui-react'
 import { words, startCase, capitalize } from 'lodash'
 
@@ -240,8 +241,8 @@ class AddApp extends React.Component {
             </Form.Field>
             <Form.Field error={error && errorExist(message, 'dataPoints')}>
               <label>Scope</label>
-              {optionsList.isLoaded &&
-                Object.keys(
+              {optionsList.isLoaded
+                ? Object.keys(
                   this.convertDictionary(
                     optionsList.data.actions.POST.dataPoints.child.choices
                   )
@@ -257,7 +258,8 @@ class AddApp extends React.Component {
                       </Table.Header>
                       <Table.Body>
                         {this.convertDictionary(
-                          optionsList.data.actions.POST.dataPoints.child.choices
+                          optionsList.data.actions.POST.dataPoints.child
+                            .choices
                         )[category].map(choice => {
                           return (
                             <Table.Row key={choice.value}>
@@ -270,6 +272,34 @@ class AddApp extends React.Component {
                               </Table.Cell>
                               <Table.Cell textAlign='right'>
                                 {choice.displayName}
+                              </Table.Cell>
+                            </Table.Row>
+                          )
+                        })}
+                      </Table.Body>
+                    </Table>
+                  )
+                })
+                : [...Array(4)].map((item, index) => {
+                  return (
+                    <Table compact='very' basic key={index}>
+                      <Table.Header>
+                        <Table.Row>
+                          <Table.Cell>
+                            <Placeholder style={{ minWidth: '100%' }}>
+                              <Placeholder.Line length='full' />
+                            </Placeholder>
+                          </Table.Cell>
+                        </Table.Row>
+                      </Table.Header>
+                      <Table.Body>
+                        {[...Array(5)].map((index, item) => {
+                          return (
+                            <Table.Row>
+                              <Table.Cell>
+                                <Placeholder style={{ minWidth: '100%' }}>
+                                  <Placeholder.Line length='full' />
+                                </Placeholder>
                               </Table.Cell>
                             </Table.Row>
                           )

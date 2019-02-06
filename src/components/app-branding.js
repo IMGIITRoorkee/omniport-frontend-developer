@@ -155,6 +155,7 @@ class AppBranding extends React.Component {
                 </label>
                 <input
                   type='file'
+                  accept='image/*'
                   onChange={this.fileChange}
                   name='logo'
                   id='uploadLogo'

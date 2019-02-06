@@ -40,7 +40,7 @@ class AppTeam extends React.Component {
       toDelete: {}
     })
   }
-  handleClose = () => this.setState({ modalOpen: '', toDelete: {} })
+  handleClose = () => this.setState({ modalOpen: false, toDelete: {} })
   render () {
     const { activeApp } = this.props
     const { data } = activeApp
@@ -75,15 +75,18 @@ class AppTeam extends React.Component {
                       pointing='top right'
                     >
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => this.handleOpen(member)}>
+                        <Dropdown.Item>
                           <Modal
                             trigger={
-                              <React.Fragment>
+                              <span onClick={() => this.handleOpen(member)}>
                                 <Icon name='close' />
                                 Delete
-                              </React.Fragment>
+                              </span>
                             }
-                            open={this.state.modalOpen === member.id}
+                            open={
+                              this.state.modalOpen &&
+                              this.state.modalOpen === member.id
+                            }
                             onClose={this.handleClose}
                             size='small'
                             dimmer='blurring'

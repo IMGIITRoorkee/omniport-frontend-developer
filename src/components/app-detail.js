@@ -24,6 +24,7 @@ import AppBranding from './app-branding'
 import AppDate from './app-date'
 import AppScope from './app-scope'
 import AppTextareaField from './app-textarea-field'
+import EmptyAppDetail from './empty-app-detail'
 import { setActiveApp, deleteApp } from '../actions'
 import { urlBase } from '../urls'
 
@@ -49,7 +50,7 @@ const clientOptions = [
   { key: 'public', value: 'public', text: 'Public' }
 ]
 
-class AppList extends React.Component {
+class AppDetail extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -238,7 +239,7 @@ class AppList extends React.Component {
             </div>
           </div>
         ) : (
-          'Loading'
+          <EmptyAppDetail />
         )}
       </Container>
     )
@@ -264,4 +265,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AppList)
+)(AppDetail)
