@@ -165,7 +165,7 @@ class AppBranding extends React.Component {
             ) : (
               <Segment basic compact>
                 {content}
-                <Image src={fileSrc} style={{ width: '4em', height: '4em' }} />
+                <Image src={fileSrc} style={{ width: '5em', height: '5em' }} />
               </Segment>
             )}
             <Form.Field error={errorExist(message, 'name')}>

@@ -33,6 +33,7 @@ class AppField extends React.PureComponent {
               trigger={
                 <Icon
                   name='copy'
+                  link
                   title='Click to copy'
                   onClick={this.handleClick}
                   color='grey'

@@ -20,7 +20,7 @@ class AppScope extends React.Component {
     return (
       <React.Fragment>
         <Segment attached='top'>
-          <Header as='h3'>Scope</Header>
+          <Header as='h4'>Scope</Header>
         </Segment>
         <Segment attached='bottom'>
           {data.dataPoints.length > 0 ? (

@@ -49,7 +49,7 @@ class AppTeam extends React.Component {
         <Segment attached='top'>
           <Grid stackable verticalAlign='middle'>
             <Grid.Column width={10}>
-              <Header as='h3' styleName='heading-container'>
+              <Header as='h4' styleName='heading-container'>
                 Team members
               </Header>
             </Grid.Column>
@@ -75,51 +75,50 @@ class AppTeam extends React.Component {
                       pointing='top right'
                     >
                       <Dropdown.Menu>
-                        <Dropdown.Item>
-                          <Modal
-                            trigger={
-                              <span onClick={() => this.handleOpen(member)}>
-                                <Icon name='close' />
-                                Delete
-                              </span>
-                            }
-                            open={
-                              this.state.modalOpen &&
-                              this.state.modalOpen === member.id
-                            }
-                            onClose={this.handleClose}
-                            size='small'
-                            dimmer='blurring'
-                            closeIcon
-                          >
-                            <Modal.Header>
-                              <Icon name='warning sign' color='red' />
-                              Confirm irreversible deletion
-                            </Modal.Header>
-                            <Modal.Content>
-                              Are you sure you want to remove{' '}
-                              <strong>{this.state.toDelete.fullName}</strong>{' '}
-                              from members of{' '}
-                              <strong>{activeApp.data.name}</strong>? This
-                              action <strong>cannot</strong> be undone.
-                            </Modal.Content>
-                            <Modal.Actions>
-                              <Button
-                                basic
-                                icon='left arrow'
-                                content='Keep'
-                                color='grey'
-                                onClick={this.handleClose}
-                              />
-                              <Button
-                                negative
-                                onClick={this.handleDelete}
-                                icon='close'
-                                content="Delete, I'm sure"
-                              />
-                            </Modal.Actions>
-                          </Modal>
-                        </Dropdown.Item>
+                        <Modal
+                          trigger={
+                            <Dropdown.Item
+                              onClick={() => this.handleOpen(member)}
+                            >
+                              <Icon name='close' />
+                              Delete
+                            </Dropdown.Item>
+                          }
+                          open={
+                            this.state.modalOpen &&
+                            this.state.modalOpen === member.id
+                          }
+                          onClose={this.handleClose}
+                          size='small'
+                          dimmer='blurring'
+                          closeIcon
+                        >
+                          <Modal.Header>
+                            <Icon name='warning sign' color='red' />
+                            Confirm irreversible deletion
+                          </Modal.Header>
+                          <Modal.Content>
+                            Are you sure you want to remove{' '}
+                            <strong>{this.state.toDelete.fullName}</strong> from
+                            members of <strong>{activeApp.data.name}</strong>?
+                            This action <strong>cannot</strong> be undone.
+                          </Modal.Content>
+                          <Modal.Actions>
+                            <Button
+                              basic
+                              icon='left arrow'
+                              content='Keep'
+                              color='grey'
+                              onClick={this.handleClose}
+                            />
+                            <Button
+                              negative
+                              onClick={this.handleDelete}
+                              icon='close'
+                              content="Delete, I'm sure"
+                            />
+                          </Modal.Actions>
+                        </Modal>
                       </Dropdown.Menu>
                     </Dropdown>
                   }

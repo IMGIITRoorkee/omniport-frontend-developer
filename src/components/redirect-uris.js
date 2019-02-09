@@ -85,7 +85,7 @@ class RedirectURLs extends React.Component {
                     />
                     {message
                       ? message['redirectUris'][0]
-                      : 'Multiple URLs are allowed, separated by a space.'}
+                      : 'Multiple URLs are allowed, separated by a space. Use the format https://example.com/path/to/resource/'}
                   </Form.Field>
                 </Form>
                 <Dimmer active={inEditMode === 'redirectUris'} inverted>
@@ -119,11 +119,11 @@ class RedirectURLs extends React.Component {
         </Table.Cell>
         <Table.Cell>
           {editMode || error ? (
-            <Icon name='save' onClick={this.handleClick} color='blue' />
+            <Icon name='save' onClick={this.handleClick} color='blue' link />
           ) : inEditMode === 'redirectUris' ? (
             <Loader active inline size='mini' />
           ) : (
-            <Icon name='pencil' onClick={this.handleClick} color='grey' />
+            <Icon name='pencil' onClick={this.handleClick} color='grey' link />
           )}
         </Table.Cell>
       </Table.Row>

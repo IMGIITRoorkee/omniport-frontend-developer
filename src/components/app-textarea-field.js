@@ -92,11 +92,16 @@ class AppTextareaField extends React.Component {
         <Table.Cell>
           {editable ? (
             editMode || error ? (
-              <Icon name='save' onClick={this.handleClick} color='blue' />
+              <Icon name='save' onClick={this.handleClick} color='blue' link />
             ) : inEditMode === field ? (
               <Loader active inline size='mini' />
             ) : (
-              <Icon name='pencil' onClick={this.handleClick} color='grey' />
+              <Icon
+                name='pencil'
+                onClick={this.handleClick}
+                color='grey'
+                link
+              />
             )
           ) : (
             false

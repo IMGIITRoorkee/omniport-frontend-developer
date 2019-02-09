@@ -196,7 +196,7 @@ class AddApp extends React.Component {
               <label>Redirect URLs</label>
               <TextArea
                 autoHeight
-                placeholder='Multiple URLs are allowed, separated by a space'
+                placeholder='Multiple URLs are allowed, separated by a space. Use the format https://example.com/path/to/resource/'
                 value={this.state.redirect_urls}
                 onChange={this.handleRedirectURLChange}
               />

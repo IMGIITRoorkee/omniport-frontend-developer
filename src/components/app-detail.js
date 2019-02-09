@@ -134,9 +134,10 @@ class AppDetail extends React.Component {
                 <div styleName='vertical-center'>
                   <Modal
                     size='mini'
-                    trigger={<Icon name='pencil' color='grey' />}
+                    trigger={<Icon name='pencil' color='grey' link />}
                     dimmer='blurring'
                     closeIcon
+                    closeOnDimmerClick={false}
                   >
                     <Modal.Header>Edit app branding</Modal.Header>
                     <AppBranding />
