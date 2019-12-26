@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { Search, Icon } from 'semantic-ui-react'
+import { debounce } from 'lodash'
 
 import { UserCard } from 'formula_one'
 import { urlSearchPerson } from '../urls'
@@ -16,19 +17,21 @@ class AppTeamEditor extends React.Component {
       results: []
     }
   }
-  handleSearchChange = (e, { value }) => {
+  handleSearchChange = value => {
     this.setState({
       value: value,
-      isLoading: true
+      isLoading: Boolean(value)
     })
-    axios.get(urlSearchPerson(), { params: { search: value } }).then(res => {
-      this.setState({
-        results: res.data.slice(0, 3).map(person => {
-          return { person, title: person.fullName }
-        }),
-        isLoading: false
+    if (value) {
+      axios.get(urlSearchPerson(), { params: { search: value } }).then(res => {
+        this.setState({
+          results: res.data.slice(0, 3).map(person => {
+            return { person, title: person.fullName }
+          }),
+          isLoading: false
+        })
       })
-    })
+    }
   }
   handleResultSelect = (e, { result }) => {
     const { activeApp } = this.props
@@ -67,10 +70,12 @@ class AppTeamEditor extends React.Component {
       <Search
         aligned='right'
         loading={isLoading}
-        onSearchChange={this.handleSearchChange}
+        onSearchChange={debounce(
+          (e, { value }) => this.handleSearchChange(value),
+          500
+        )}
         onResultSelect={this.handleResultSelect}
         results={results}
-        value={value}
         resultRenderer={resultRenderer}
         fluid
         input={{ fluid: true }}

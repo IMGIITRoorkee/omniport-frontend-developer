@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { toast } from 'react-semantic-toasts'
 
 import { getCookie } from 'formula_one'
 import { urlAppList, urlAppDetail } from '../urls'
@@ -16,7 +17,16 @@ export const setOptionsList = () => {
           }
         })
       })
-      .catch(err => {})
+      .catch(() => {
+        toast({
+          type: 'error',
+          title: 'Error',
+          description: 'Some error occured while setting up the options list',
+          animation: 'fade up',
+          icon: 'frown up',
+          time: 3000
+        })
+      })
   }
 }
 
@@ -33,7 +43,16 @@ export const setAppList = () => {
           }
         })
       })
-      .catch(err => {})
+      .catch(() => {
+        toast({
+          type: 'error',
+          title: 'Error',
+          description: 'Some error occured while fetching the apps',
+          animation: 'fade up',
+          icon: 'frown up',
+          time: 3000
+        })
+      })
   }
 }
 
