@@ -124,7 +124,7 @@ class AddApp extends React.Component {
       description: description,
       client_type: client_type,
       agree_to_terms: agreed,
-      data_points: dataPoints
+      data_points: dataPoints.filter(x => x !== null)
     }
     this.props.AddApp(data, this.successCallback, this.errCallback)
   }
