@@ -15,7 +15,7 @@ import { changeActiveApp } from '../actions'
 
 import main from '../css/app-field.css'
 
-class RedirectURLs extends React.Component {
+class RedirectURIs extends React.Component {
   constructor (props) {
     super(props)
     const { activeApp } = props
@@ -70,7 +70,7 @@ class RedirectURLs extends React.Component {
     const { data, inEditMode } = activeApp
     return (
       <Table.Row>
-        <Table.Cell>Redirect URLs</Table.Cell>
+        <Table.Cell>Redirect URIs</Table.Cell>
         <Table.Cell>
           <div styleName='desc-container'>
             {editMode || inEditMode === 'redirectUris' ? (
@@ -79,13 +79,13 @@ class RedirectURLs extends React.Component {
                   <Form.Field error={error}>
                     <TextArea
                       autoHeight
-                      placeholder='Multiple urls are allowed seperated with space'
+                      placeholder='Multiple URIs are allowed separated with space'
                       value={this.state.value}
                       onChange={this.handleChange}
                     />
                     {message
                       ? message['redirectUris'][0]
-                      : 'Multiple URLs are allowed, separated by a space. Use the format https://example.com/path/to/resource/'}
+                      : 'Multiple URIs are allowed, separated by a space. Use the format https://example.com/path/to/resource/'}
                   </Form.Field>
                 </Form>
                 <Dimmer active={inEditMode === 'redirectUris'} inverted>
@@ -147,4 +147,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RedirectURLs)
+)(RedirectURIs)

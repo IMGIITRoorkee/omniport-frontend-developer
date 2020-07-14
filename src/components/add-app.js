@@ -35,7 +35,7 @@ class AddApp extends React.Component {
       logo: null,
       fileSrc: '',
       name: '',
-      redirect_urls: '',
+      redirect_uris: '',
       client_type: 'confidential',
       description: '',
       descPercent: 100,
@@ -64,9 +64,9 @@ class AddApp extends React.Component {
       [name]: value
     })
   }
-  handleRedirectURLChange = (e, { value }) => {
+  handleRedirectURIChange = (e, { value }) => {
     this.setState({
-      redirect_urls: value.replace(/\n/g, ' ').replace(/\s\s+/g, ' ')
+      redirect_uris: value.replace(/\n/g, ' ').replace(/\s\s+/g, ' ')
     })
   }
   handleDescriptionChange = (e, { value }) => {
@@ -107,7 +107,7 @@ class AddApp extends React.Component {
   handleClick = () => {
     const {
       name,
-      redirect_urls,
+      redirect_uris,
       description,
       client_type,
       agreed,
@@ -120,7 +120,7 @@ class AddApp extends React.Component {
     })
     const data = {
       name: name,
-      redirect_uris: redirect_urls,
+      redirect_uris: redirect_uris,
       description: description,
       client_type: client_type,
       agree_to_terms: agreed,
@@ -193,14 +193,14 @@ class AddApp extends React.Component {
               error={error && errorExist(message, 'redirectUris')}
               required
             >
-              <label>Redirect URLs</label>
+              <label>Redirect URIs</label>
               <TextArea
                 autoHeight
-                placeholder='Multiple URLs are allowed, separated by a space. Use the format https://example.com/path/to/resource/'
-                value={this.state.redirect_urls}
-                onChange={this.handleRedirectURLChange}
+                placeholder='Multiple URIs are allowed, separated by a space. Use the format https://example.com/path/to/resource/'
+                value={this.state.redirect_uris}
+                onChange={this.handleRedirectURIChange}
               />
-              Multiple URLs are allowed, separated by a space.
+              Multiple URIs are allowed, separated by a space.
             </Form.Field>
             <Form.Field
               error={error && errorExist(message, 'client_type')}

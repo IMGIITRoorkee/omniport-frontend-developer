@@ -16,7 +16,7 @@ import { isBrowser } from 'react-device-detect'
 
 import CustomBreadcrumb from 'core/common/src/components/custom-breadcrumb'
 import { getTheme } from 'formula_one'
-import RedirectURLs from './redirect-uris'
+import RedirectURIs from './redirect-uris'
 import AppField from './app-field'
 import AppFieldSelect from './app-field-select'
 import AppTeam from './app-team'
@@ -157,7 +157,7 @@ class AppDetail extends React.Component {
                   verboseName='Client secret'
                   editable={false}
                 />
-                <RedirectURLs />
+                <RedirectURIs />
                 <AppTextareaField
                   field='description'
                   verboseName='Description'
