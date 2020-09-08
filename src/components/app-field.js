@@ -1,33 +1,32 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Table, Icon, Popup, Button, Label, Form, FormField } from "semantic-ui-react";
-import main from "../css/app-field.css";
-import axios from "axios";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Table, Icon, Popup, Button, Label, Form, FormField } from 'semantic-ui-react';
+import main from '../css/app-field.css';
+import axios from 'axios';
 import { getCookie } from 'formula_one'
 import {urlAppHiddenDetail} from '../urls'
 
 class AppField extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       password_verified: this.props.password_verified,
       formOpen : false,
       password : "",
-      hiddendata : "",
+      hiddenData : "",
       message : ""
     };
   }
   handleOpen = () => this.setState({ formOpen: true });
 
   handleClose = () => this.setState({
-     formOpen: false,
-     message : "",
-     password : ""
+      formOpen: false,
+      message : "",
+      password : ""
     });
 
   handlePasswordChange = (e,{value}) => {
     this.setState({
-      ...this.state,
       password : value
     })
   }
@@ -35,21 +34,20 @@ class AppField extends React.PureComponent {
   handleSubmitSecret = (e) => {
      e.preventDefault();
 
-     const passwordjson = {
-       password : this.state.password,
-     }
-
      const headers = {
       'X-CSRFToken': getCookie('csrftoken'),
       'content-type' : 'application/json'
     }
 
-     axios.post(urlAppHiddenDetail(this.props.activeApp.data['id']),passwordjson,{headers: headers})
+     axios.post(urlAppHiddenDetail(),{
+      password : this.state.password,
+      id : this.props.activeApp.data['id']
+      },{headers: headers})
       .then(res =>
         {
           this.setState({
             password_verified : true,
-            hiddendata : res.data[this.props.field]
+            hiddenData : res.data[this.props.field]
           })
         }
         )
@@ -80,9 +78,9 @@ class AppField extends React.PureComponent {
           <Table.Cell>
             <div styleName="desc-container">
               <code ref={(textarea) => (this.textArea = textarea)}>
-                {this.state.hiddendata == ""
+                {this.state.hiddenData == ""
                   ? data[field]
-                  : this.state.hiddendata}
+                  : this.state.hiddenData}
               </code>
             </div>
           </Table.Cell>
@@ -100,7 +98,7 @@ class AppField extends React.PureComponent {
                 <Button size="small" positive type="submit">Submit</Button>
                 <Button size="small" onClick={this.handleClose}>Cancel</Button>
                 {this.state.message=="" ? '': <Label basic color='red'>
-                    {this.state.message}
+                {this.state.message}
                 </Label>}
                 </Form.Group>
               </Form>
