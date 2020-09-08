@@ -30,6 +30,6 @@ export function urlSearchPerson () {
   return `/api/yellow_pages/person/`
 }
 
-export function urlAppHiddenDetail (id) {
-  return `${urlAppList()}${id}/secret_data/`
+export function urlAppHiddenDetail () {
+  return `${urlAppList()}secret_data/`
 }
