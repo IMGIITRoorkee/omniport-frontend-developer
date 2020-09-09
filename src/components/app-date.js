@@ -14,7 +14,7 @@ class AppDate extends React.PureComponent {
         <Table.Cell>Created on</Table.Cell>
         <Table.Cell>
           <div styleName='desc-container'>
-            {moment(data['created']).format('MMMM Do YYYY, h:mm:ss a')}
+            {moment(data['datetimeCreated']).format('MMMM Do YYYY, h:mm:ss a')}
           </div>
         </Table.Cell>
         <Table.Cell />
