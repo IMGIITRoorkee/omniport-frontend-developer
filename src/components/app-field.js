@@ -1,58 +1,65 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Table, Icon, Popup, Button, Label, Form, FormField } from 'semantic-ui-react';
-import main from '../css/app-field.css';
-import axios from 'axios';
+import React from 'react'
+import { connect } from 'react-redux'
+import { Table, Icon, Popup, Button, Label, Form } from 'semantic-ui-react'
+import axios from 'axios'
+
 import { getCookie } from 'formula_one'
-import {urlAppHiddenDetail} from '../urls'
+
+import { urlAppHiddenDetail } from '../urls'
+
+import main from '../css/app-field.css'
 
 class AppField extends React.PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       password_verified: this.props.password_verified,
-      formOpen : false,
-      password : "",
-      hiddenData : "",
-      message : ""
+      formOpen: false,
+      password: '',
+      hiddenData: '',
+      message: '',
     };
   }
   handleOpen = () => this.setState({ formOpen: true });
 
-  handleClose = () => this.setState({
+  handleClose = () =>
+    this.setState({
       formOpen: false,
-      message : "",
-      password : ""
+      message: '',
+      password: '',
     });
 
-  handlePasswordChange = (e,{value}) => {
+  handlePasswordChange = (e, { value }) => {
     this.setState({
-      password : value
-    })
-  }
+      password: value,
+    });
+  };
 
   handleSubmitSecret = (e) => {
-     e.preventDefault();
+    e.preventDefault();
 
-     const headers = {
-      'X-CSRFToken': getCookie('csrftoken'),
-      'content-type' : 'application/json'
-    }
+    const headers = {
+      "X-CSRFToken": getCookie("csrftoken"),
+      "content-type": "application/json",
+    };
 
-     axios.post(urlAppHiddenDetail(),{
-      password : this.state.password,
-      id : this.props.activeApp.data['id']
-      },{headers: headers})
-      .then(res =>
+    axios
+      .post(
+        urlAppHiddenDetail(),
         {
-          this.setState({
-            password_verified : true,
-            hiddenData : res.data[this.props.field]
-          })
-        }
-        )
-        .catch(err => this.setState({message:err.response.data}))
-  }
+          password: this.state.password,
+          id: this.props.activeApp.data["id"],
+        },
+        { headers: headers }
+      )
+      .then((res) => {
+        this.setState({
+          password_verified: true,
+          hiddenData: res.data[this.props.field],
+        });
+      })
+      .catch((err) => this.setState({ message: err.response.data }));
+  };
 
   handleClick = () => {
     let range = document.createRange();
@@ -64,12 +71,7 @@ class AppField extends React.PureComponent {
     sel.removeAllRanges();
   };
   render() {
-    const {
-      activeApp,
-      field,
-      verboseName,
-      editable,
-    } = this.props;
+    const { activeApp, field, verboseName, editable } = this.props;
     const { data } = activeApp;
     return (
       <Table.Row>
@@ -78,7 +80,7 @@ class AppField extends React.PureComponent {
           <Table.Cell>
             <div styleName="desc-container">
               <code ref={(textarea) => (this.textArea = textarea)}>
-                {this.state.hiddenData == ""
+                {this.state.hiddenData == ''
                   ? data[field]
                   : this.state.hiddenData}
               </code>
@@ -88,30 +90,37 @@ class AppField extends React.PureComponent {
           <Table.Cell>
             {this.state.formOpen ? (
               <Form size="small" onSubmit={this.handleSubmitSecret}>
-              <Form.Group>
-                <Form.Input
-                  type={"password"}
-                  value={this.state.password}
-                  onChange={this.handlePasswordChange}
-                  placeholder="Enter Password"
-                />
-                <Button size="small" positive type="submit">Submit</Button>
-                <Button size="small" onClick={this.handleClose}>Cancel</Button>
-                {this.state.message=="" ? '': <Label basic color='red'>
-                {this.state.message}
-                </Label>}
+                <Form.Group>
+                  <Form.Input
+                    type={"password"}
+                    value={this.state.password}
+                    onChange={this.handlePasswordChange}
+                    placeholder="Enter Password"
+                  />
+                  <Button size="small" positive type="submit">
+                    Submit
+                  </Button>
+                  <Button size="small" onClick={this.handleClose}>
+                    Cancel
+                  </Button>
+                  {this.state.message == '' ? (
+                    ''
+                  ) : (
+                    <Label basic color="red">
+                      {this.state.message}
+                    </Label>
+                  )}
                 </Form.Group>
               </Form>
             ) : (
               <Icon
-                    name="eye"
-                    link
-                    size="large"
-                    title="Click to verify your identity"
-                    onClick={this.handleOpen}
-                    color="black"
-                  />
-              
+                name="eye"
+                link
+                size="large"
+                title="Click to verify your identity"
+                onClick={this.handleOpen}
+                color="black"
+              />
             )}
           </Table.Cell>
         )}
@@ -131,13 +140,13 @@ class AppField extends React.PureComponent {
               on="click"
             />
           ) : (
-                <Icon
-                  name="info circle"
-                  size="normal"
-                  link
-                  title="Sharing of this data might lead to security threat!"
-                  color="grey"
-                />
+            <Icon
+              name="info circle"
+              size="normal"
+              link
+              title="Sharing of this data might lead to security threat!"
+              color="grey"
+            />
           )}
         </Table.Cell>
       </Table.Row>
