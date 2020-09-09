@@ -11,37 +11,37 @@ import main from '../css/app-field.css'
 
 class AppField extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       password_verified: this.props.password_verified,
       formOpen: false,
       password: '',
       hiddenData: '',
       message: '',
-    };
+    }
   }
-  handleOpen = () => this.setState({ formOpen: true });
+  handleOpen = () => this.setState({ formOpen: true })
 
   handleClose = () =>
     this.setState({
       formOpen: false,
       message: '',
       password: '',
-    });
+    })
 
   handlePasswordChange = (e, { value }) => {
     this.setState({
       password: value,
-    });
-  };
+    })
+  }
 
   handleSubmitSecret = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const headers = {
       "X-CSRFToken": getCookie("csrftoken"),
       "content-type": "application/json",
-    };
+    }
 
     axios
       .post(
@@ -56,23 +56,23 @@ class AppField extends React.PureComponent {
         this.setState({
           password_verified: true,
           hiddenData: res.data[this.props.field],
-        });
+        })
       })
-      .catch((err) => this.setState({ message: err.response.data }));
-  };
+      .catch((err) => this.setState({ message: err.response.data }))
+  }
 
   handleClick = () => {
-    let range = document.createRange();
-    range.selectNodeContents(this.textArea);
-    let sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-    document.execCommand("copy");
-    sel.removeAllRanges();
-  };
+    let range = document.createRange()
+    range.selectNodeContents(this.textArea)
+    let sel = window.getSelection()
+    sel.removeAllRanges()
+    sel.addRange(range)
+    document.execCommand("copy")
+    sel.removeAllRanges()
+  }
   render() {
-    const { activeApp, field, verboseName, editable } = this.props;
-    const { data } = activeApp;
+    const { activeApp, field, verboseName, editable } = this.props
+    const { data } = activeApp
     return (
       <Table.Row>
         <Table.Cell>{verboseName}</Table.Cell>
@@ -150,17 +150,17 @@ class AppField extends React.PureComponent {
           )}
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
   return {
     activeApp: state.activeApp,
-  };
+  }
 }
 const mapDispatchToProps = (dispatch) => {
-  return {};
-};
+  return {}
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppField);
+export default connect(mapStateToProps, mapDispatchToProps)(AppField)
