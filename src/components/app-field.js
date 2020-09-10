@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Table, Icon, Popup, Button, Label, Form } from 'semantic-ui-react'
+import { Table, Icon, Popup, Button, Input } from 'semantic-ui-react'
 import axios from 'axios'
 
 import { getCookie } from 'formula_one'
@@ -17,16 +17,27 @@ class AppField extends React.PureComponent {
       formOpen: false,
       password: '',
       hiddenData: '',
-      message: '',
+      passwordPlaceholder: 'Enter password',
+      passwordError: false,
     }
   }
+
+  handleSubmitError = (data) => {
+    this.setState({
+      password: '',
+      passwordPlaceholder: data,
+      passwordError: true,
+    })
+  }
+
   handleOpen = () => this.setState({ formOpen: true })
 
   handleClose = () =>
     this.setState({
       formOpen: false,
-      message: '',
+      passwordError: false,
       password: '',
+      passwordPlaceholder: 'Enter password',
     })
 
   handlePasswordChange = (e, { value }) => {
@@ -35,8 +46,11 @@ class AppField extends React.PureComponent {
     })
   }
 
-  handleSubmitSecret = (e) => {
-    e.preventDefault()
+  handleSubmitSecret = () => {
+    if(this.state.password==''){
+      this.handleSubmitError("Enter something")
+      return
+    }
 
     const headers = {
       "X-CSRFToken": getCookie("csrftoken"),
@@ -58,7 +72,7 @@ class AppField extends React.PureComponent {
           hiddenData: res.data[this.props.field],
         })
       })
-      .catch((err) => this.setState({ message: err.response.data }))
+      .catch((err) => this.handleSubmitError(err.response.data))
   }
 
   handleClick = () => {
@@ -89,29 +103,22 @@ class AppField extends React.PureComponent {
         ) : (
           <Table.Cell>
             {this.state.formOpen ? (
-              <Form size="small" onSubmit={this.handleSubmitSecret}>
-                <Form.Group>
-                  <Form.Input
-                    type={"password"}
-                    value={this.state.password}
-                    onChange={this.handlePasswordChange}
-                    placeholder="Enter Password"
-                  />
-                  <Button size="small" positive type="submit">
-                    Submit
-                  </Button>
-                  <Button size="small" onClick={this.handleClose}>
-                    Cancel
-                  </Button>
-                  {this.state.message == '' ? (
-                    ''
-                  ) : (
-                    <Label basic color="red">
-                      {this.state.message}
-                    </Label>
-                  )}
-                </Form.Group>
-              </Form>
+              <div className="appfield_div">
+                <Input
+                  styleName="appfield_input"
+                  type={"password"}
+                  value={this.state.password}
+                  onChange={this.handlePasswordChange}
+                  placeholder={this.state.passwordPlaceholder}
+                  error={this.state.passwordError}
+                />
+                <Button size="small" onClick={this.handleSubmitSecret} positive>
+                  Submit
+                </Button>
+                <Button size="small" onClick={this.handleClose}>
+                  Cancel
+                </Button>
+              </div>
             ) : (
               <Icon
                 name="eye"
