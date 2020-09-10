@@ -75,6 +75,13 @@ class AppField extends React.PureComponent {
       .catch((err) => this.handleSubmitError(err.response.data))
   }
 
+
+  handleKeyDown = (event) => {
+    if(event.key === 'Enter'){
+      this.handleSubmitSecret() 
+    }
+  }
+
   handleClick = () => {
     let range = document.createRange()
     range.selectNodeContents(this.textArea)
@@ -111,6 +118,7 @@ class AppField extends React.PureComponent {
                   onChange={this.handlePasswordChange}
                   placeholder={this.state.passwordPlaceholder}
                   error={this.state.passwordError}
+                  onKeyDown={this.handleKeyDown}
                 />
                 <Button size="small" onClick={this.handleSubmitSecret} positive>
                   Submit
