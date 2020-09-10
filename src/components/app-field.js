@@ -75,7 +75,6 @@ class AppField extends React.PureComponent {
       .catch((err) => this.handleSubmitError(err.response.data))
   }
 
-
   handleKeyDown = (event) => {
     if(event.key === 'Enter'){
       this.handleSubmitSecret() 
