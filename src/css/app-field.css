@@ -1,18 +1,17 @@
-.desc-container{
-    word-break: break-all;
+.desc-container {
+  word-break: break-all;
 }
 
-.appfield_div{
-    display: flex;
-    flex-direction: row;
+.app-field-div {
+  display: flex;
+  flex-direction: row;
 }
 
-.appfield_input{
-    margin-right: 0.33em;
+.app-field-input-browser {
+  margin-right: 0.33em;
 }
 
-@media (max-width: 460px) {
-    .appfield_input{
-        margin-bottom: 0.33em;
-    }
+.app-field-input-mobile {
+  margin-right: 0.33em;
+  margin-bottom: 0.33em;
 }
