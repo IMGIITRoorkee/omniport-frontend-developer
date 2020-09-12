@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { isBrowser } from 'react-device-detect'
 import { Table, Icon, Popup, Button, Input } from 'semantic-ui-react'
 import axios from 'axios'
 
@@ -109,9 +110,13 @@ class AppField extends React.PureComponent {
         ) : (
           <Table.Cell>
             {this.state.formOpen ? (
-              <div className='appfield_div'>
+              <div className='app-field-div'>
                 <Input
-                  styleName='appfield_input'
+                  styleName={
+                    isBrowser
+                      ? 'app-field-input-browser'
+                      : 'app-field-input-mobile'
+                  }
                   type={'password'}
                   value={this.state.password}
                   onChange={this.handlePasswordChange}
