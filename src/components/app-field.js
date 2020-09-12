@@ -47,7 +47,7 @@ class AppField extends React.PureComponent {
   }
 
   handleSubmitSecret = () => {
-    if(this.state.password==''){
+    if(this.state.password === ''){
       this.handleSubmitError("Enter something")
       return
     }
@@ -87,7 +87,7 @@ class AppField extends React.PureComponent {
     let sel = window.getSelection()
     sel.removeAllRanges()
     sel.addRange(range)
-    document.execCommand("copy")
+    document.execCommand('copy')
     sel.removeAllRanges()
   }
   render() {
@@ -100,7 +100,7 @@ class AppField extends React.PureComponent {
           <Table.Cell>
             <div styleName="desc-container">
               <code ref={(textarea) => (this.textArea = textarea)}>
-                {this.state.hiddenData == ''
+                {this.state.hiddenData === ''
                   ? data[field]
                   : this.state.hiddenData}
               </code>
@@ -112,7 +112,7 @@ class AppField extends React.PureComponent {
               <div className="appfield_div">
                 <Input
                   styleName="appfield_input"
-                  type={"password"}
+                  type={'password'}
                   value={this.state.password}
                   onChange={this.handlePasswordChange}
                   placeholder={this.state.passwordPlaceholder}
