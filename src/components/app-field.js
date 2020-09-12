@@ -124,12 +124,18 @@ class AppField extends React.PureComponent {
                   error={this.state.passwordError}
                   onKeyDown={this.handleKeyDown}
                 />
-                <Button size='small' onClick={this.handleSubmitSecret} positive>
-                  Submit
-                </Button>
-                <Button size='small' onClick={this.handleClose}>
-                  Cancel
-                </Button>
+                <Button.Group>
+                  <Button
+                    size='small'
+                    onClick={this.handleSubmitSecret}
+                    positive
+                  >
+                    Submit
+                  </Button>
+                  <Button size='small' onClick={this.handleClose}>
+                    Cancel
+                  </Button>
+                </Button.Group>
               </div>
             ) : (
               <Icon
