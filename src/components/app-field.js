@@ -110,21 +110,23 @@ class AppField extends React.PureComponent {
         ) : (
           <Table.Cell>
             {this.state.formOpen ? (
-              <div className='app-field-div'>
-                <Input
-                  styleName={
-                    isBrowser
-                      ? 'app-field-input-browser'
-                      : 'app-field-input-mobile'
-                  }
-                  type={'password'}
-                  value={this.state.password}
-                  onChange={this.handlePasswordChange}
-                  placeholder={this.state.passwordPlaceholder}
-                  error={this.state.passwordError}
-                  onKeyDown={this.handleKeyDown}
-                />
-                <Button.Group>
+              <div styleName={isBrowser ? 'app-field-div' : ''}>
+                <div>
+                  <Input
+                    styleName={
+                      isBrowser
+                        ? 'app-field-input-browser'
+                        : 'app-field-input-mobile'
+                    }
+                    type={'password'}
+                    value={this.state.password}
+                    onChange={this.handlePasswordChange}
+                    placeholder={this.state.passwordPlaceholder}
+                    error={this.state.passwordError}
+                    onKeyDown={this.handleKeyDown}
+                  />
+                </div>
+                <div styleName='app-field-div'>
                   <Button
                     size='small'
                     onClick={this.handleSubmitSecret}
@@ -135,7 +137,7 @@ class AppField extends React.PureComponent {
                   <Button size='small' onClick={this.handleClose}>
                     Cancel
                   </Button>
-                </Button.Group>
+                </div>
               </div>
             ) : (
               <Icon
