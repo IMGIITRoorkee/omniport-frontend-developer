@@ -29,3 +29,7 @@ export function urlAppDetail (id) {
 export function urlSearchPerson () {
   return `/api/yellow_pages/person/`
 }
+
+export function urlAppHiddenDetail () {
+  return `${urlAppList()}secret_data/`
+}

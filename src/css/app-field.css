@@ -1,3 +1,17 @@
-.desc-container{
-    word-break: break-all;
+.desc-container {
+  word-break: break-all;
+}
+
+.app-field-div {
+  display: flex;
+  flex-direction: row;
+}
+
+.app-field-input-mobile,
+.app-field-input-browser {
+  margin-right: 0.33em;
+}
+
+.app-field-input-mobile {
+  margin-bottom: 0.33em;
 }

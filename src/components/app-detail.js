@@ -151,11 +151,13 @@ class AppDetail extends React.Component {
                   field='clientId'
                   verboseName='Client ID'
                   editable={false}
+                  password_verified={true}
                 />
                 <AppField
                   field='clientSecret'
                   verboseName='Client secret'
                   editable={false}
+                  password_verified={false}
                 />
                 <RedirectURIs />
                 <AppTextareaField
@@ -263,7 +265,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppDetail)
+export default connect(mapStateToProps, mapDispatchToProps)(AppDetail)
