@@ -113,7 +113,7 @@ class AddApp extends React.Component {
       agreed,
       scope
     } = this.state
-    const dataPoints = Object.keys(scope).map(sco => {
+    const dataPoints = Object.keys(scope).filter(sco => {
       if (scope[sco]) {
         return sco
       }
@@ -124,7 +124,7 @@ class AddApp extends React.Component {
       description: description,
       client_type: client_type,
       agree_to_terms: agreed,
-      data_points: dataPoints.filter(x => x !== null)
+      data_points: dataPoints
     }
     this.props.AddApp(data, this.successCallback, this.errCallback)
   }
