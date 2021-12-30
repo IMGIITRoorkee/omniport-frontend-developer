@@ -22,3 +22,14 @@
 .warninig-container{
     margin: 0.5em 0;
 }
+
+.app-scope-segment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-scope-header{
+    display: inline;
+    margin-bottom: 0!important;
+}
